@@ -1,0 +1,43 @@
+name: line_manager
+description: إدارة خطوط العملاء - Line Manager - إدارة خطوط Orange والاشتراكات والمدفوعات
+publish_to: 'none'
+version: 1.0.1+2
+
+environment:
+  sdk: '>=3.4.0 <4.0.0'
+  flutter: '>=3.22.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  intl: ^0.20.2
+  provider: ^6.1.2
+  drift: ^2.20.0
+  drift_flutter: ^2.20.0
+  sqlite3_flutter_libs: ^0.5.0
+  path_provider: ^2.1.2
+  path: ^1.9.0
+  uuid: ^4.5.0
+  supabase_flutter: ^2.8.0
+  flutter_local_notifications: ^18.0.1
+  timezone: ^0.10.0
+  pdf: ^3.11.0
+  excel: ^4.0.6
+  share_plus: ^8.0.0
+  image: ^4.3.0
+  url_launcher: ^6.3.0
+  file_picker: ^8.1.0
+  connectivity_plus: ^6.1.0
+  shared_preferences: ^2.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  drift_dev: ^2.20.0
+  build_runner: ^2.4.13
+
+flutter:
+  uses-material-design: true
