@@ -55,7 +55,7 @@ class Repos {
     final id = const Uuid().v4();
     await db.transaction(() async {
       await db.into(db.customers).insert(CustomersCompanion.insert(
-        id: id,
+        id: Value(id),
         name: cleanName,
         phone: Value(_emptyToNull(phone)),
         whatsapp: Value(_emptyToNull(whatsapp)),
@@ -185,7 +185,7 @@ class Repos {
     final id = const Uuid().v4();
     await db.transaction(() async {
       await db.into(db.packages).insert(PackagesCompanion.insert(
-        id: id,
+        id: Value(id),
         name: cleanName,
         pricePiasters: pricePiasters,
         description: Value(_emptyToNull(description)),
@@ -254,7 +254,7 @@ class Repos {
       final historyId = const Uuid().v4();
       await db.into(db.packagePriceHistory).insert(
             PackagePriceHistoryCompanion.insert(
-              id: historyId,
+              id: Value(historyId),
               packageId: packageId,
               oldPricePiasters: oldEffectivePrice,
               newPricePiasters: newPrice,
@@ -380,7 +380,7 @@ class Repos {
     final id = const Uuid().v4();
     await db.transaction(() async {
       await db.into(db.lines).insert(LinesCompanion.insert(
-        id: id,
+        id: Value(id),
         customerId: customerId,
         packageId: packageId,
         number: cleanNumber,
@@ -449,7 +449,7 @@ class Repos {
         ),
       );
       if (packageChanged) {
-        final nextPackageId = packageId!;
+        final nextPackageId = packageId;
         final nextPackage = await (db.select(db.packages)
               ..where((p) => p.id.equals(nextPackageId)))
             .getSingle();
@@ -522,7 +522,7 @@ class Repos {
   }) async {
     final id = const Uuid().v4();
     await db.into(db.billingCycles).insert(BillingCyclesCompanion.insert(
-      id: id,
+      id: Value(id),
       lineId: lineId,
       year: month.year,
       month: month.month,
@@ -706,7 +706,7 @@ class Repos {
       final receiptNumber =
           'LM-${DateTime.now().millisecondsSinceEpoch}-${const Uuid().v4().substring(0, 8)}';
       await db.into(db.payments).insert(PaymentsCompanion.insert(
-        id: paymentId,
+        id: Value(paymentId),
         lineId: lineId,
         customerId: customerId,
         amountPiasters: amountPiasters,
@@ -739,7 +739,7 @@ class Repos {
         final allocationId = const Uuid().v4();
         await db.into(db.paymentAllocations).insert(
               PaymentAllocationsCompanion.insert(
-                id: allocationId,
+                id: Value(allocationId),
                 paymentId: paymentId,
                 billingCycleId: cycle.id,
                 amountPiasters: entry.value,
@@ -844,7 +844,10 @@ class Repos {
         .get();
     return payments
         .where((p) => p.paidAt.year == month.year && p.paidAt.month == month.month)
-        .fold(0, (sum, payment) => sum + payment.amountPiasters);
+        .fold<int>(
+  0,
+  (sum, payment) => sum + payment.amountPiasters,
+);
   }
 
   Future<int> arrearsForLine(String lineId) async {
@@ -875,7 +878,7 @@ class Repos {
     final id = const Uuid().v4();
     await db.transaction(() async {
       await db.into(db.expenses).insert(ExpensesCompanion.insert(
-        id: id,
+        id: Value(id),
         title: cleanTitle,
         amountPiasters: amountPiasters,
         spentAt: spentAt ?? DateTime.now(),
