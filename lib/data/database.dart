@@ -164,7 +164,7 @@ class AppDatabase extends _$AppDatabase {
   Future<void> audit(String type, String? eid, String action, {String? oldV, String? newV}) async {
     final id = const Uuid().v4();
     await into(auditLogs).insert(AuditLogsCompanion.insert(
-      id: id,
+      id: Value(id),
       entityType: type,
       entityId: Value(eid),
       action: action,
@@ -174,6 +174,14 @@ class AppDatabase extends _$AppDatabase {
     await enqueueSync('audit', id, 'upsert', '{}');
   }
   Future<void> enqueueSync(String type, String eid, String op, String json) async {
-    await into(syncQueue).insert(SyncQueueCompanion.insert(id: const Uuid().v4(), entityType: type, entityId: eid, operation: op, payloadJson: json));
+    await into(syncQueue).insert(
+  SyncQueueCompanion.insert(
+    id: Value(const Uuid().v4()),
+    entityType: type,
+    entityId: eid,
+    operation: op,
+    payloadJson: json,
+  ),
+);
   }
 }
